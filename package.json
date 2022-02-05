@@ -1,6 +1,6 @@
 {
   "name": "agregore-markdown-site-generator",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Generate static HTML websites from markdown using the same style as Agregore's markdown extension",
   "main": "index.js",
   "type": "module",
