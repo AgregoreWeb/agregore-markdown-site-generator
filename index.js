@@ -78,7 +78,6 @@ export function renderMarkdown (markdown, fileName, theme = DEFAULT_THEME) {
 </style>
 <style>
 @charset "utf-8";
-<!-- Load Agregore Color Scheme vars if they exist -->
 @import url("agregore://theme/vars.css");
 
 html,body,input,button {
