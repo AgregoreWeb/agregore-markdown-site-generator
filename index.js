@@ -45,10 +45,18 @@ export function renderMarkdown (markdown, fileName, theme = DEFAULT_THEME) {
   const firstHeading = tokens.find((token) => token.type === 'heading')
   const title = firstHeading?.text || fileName
 
+  const firstParagraph = tokens.find(({ type }) => type === 'paragraph')
+  const description = firstParagraph?.text ?? ''
+
   return `<!DOCTYPE html>
 <title>${title}</title>
 <meta charset="utf-8"/>
 <meta http-equiv="Content-Type" content="text/html charset=utf-8"/>
+<link rel="icon" type="image/svg+xml" href="./icon.svg"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="${description}">
 <style>
 /* Hardcode the theme, should be overriden by Agregore theme vars*/
 :root {
@@ -68,9 +76,11 @@ export function renderMarkdown (markdown, fileName, theme = DEFAULT_THEME) {
   --ag-theme-max-width: 666px;
 }
 </style>
-<!-- Load Agregore Color Scheme vars if they exist -->
-<link rel="stylesheet" href="agregore://theme/vars.css"/>
 <style>
+@charset "utf-8";
+<!-- Load Agregore Color Scheme vars if they exist -->
+@import url("agregore://theme/vars.css");
+
 html,body,input,button {
   background: var(--ag-theme-background);
   color: var(--ag-theme-text);
@@ -94,7 +104,14 @@ a:visited {
 }
 
 img {
-    max-width: 100%;
+    width: 80%;
+    display: block;
+    margin: 1em auto;
+}
+
+iframe {
+  display: block;
+  margin: 1em auto;
 }
 
 code {
@@ -111,8 +128,16 @@ li {
   list-style-type: " ⟐ ";
 }
 
+br {
+  color: var(--ag-theme-primary);
+}
+
 *:focus {
   outline: 2px solid var(--ag-theme-secondary);
+}
+
+h1 {
+  text-align: center;
 }
 
 /* Reset style for anchors added to headers */
