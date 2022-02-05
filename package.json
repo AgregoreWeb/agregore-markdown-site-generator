@@ -1,0 +1,34 @@
+{
+  "name": "agregore-markdown-site-generator",
+  "version": "1.0.0",
+  "description": "Generate static HTML websites from markdown using the same style as Agregore's markdown extension",
+  "main": "index.js",
+  "type": "module",
+  "bin": "bin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgregoreWeb/agregore-markdown-site-generator.git"
+  },
+  "keywords": [
+    "agregore",
+    "SSG",
+    "render",
+    "generator",
+    "html",
+    "markdown"
+  ],
+  "author": "rangermauve <ranger@mauve.moe> (https://mauve.moe/)",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/AgregoreWeb/agregore-markdown-site-generator/issues"
+  },
+  "homepage": "https://github.com/AgregoreWeb/agregore-markdown-site-generator#readme",
+  "dependencies": {
+    "glob": "^7.2.0",
+    "it-glob": "^1.0.2",
+    "marked": "^4.0.12"
+  }
+}
