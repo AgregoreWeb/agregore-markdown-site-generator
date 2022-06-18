@@ -105,6 +105,3 @@ dist
 
 # Rendered HTML files
 *.html
-
-# Editors
-.vscode

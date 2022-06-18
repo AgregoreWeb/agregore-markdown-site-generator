@@ -13,108 +13,6 @@ export const DEFAULT_THEME = {
   'max-width': '666px'
 }
 
-export const DEFAULT_THEME_STYLES = {
-  ':root': {
-    '--ag-color-purple': '#6e2de5',
-    '--ag-color-black': '#111',
-    '--ag-color-white': '#F2F2F2',
-    '--ag-color-green': '#2de56e',
-    '--ag-theme-font-family': 'system-ui',
-    '--ag-theme-background': 'var(--ag-color-black)',
-    '--ag-theme-text': 'var(--ag-color-white)',
-    '--ag-theme-primary': 'var(--ag-color-purple)',
-    '--ag-theme-secondary': 'var(--ag-color-green)',
-    '--ag-theme-indent': '16px',
-    '--ag-theme-max-width': '666px',
-    'font-family': 'system-ui'
-  },
-  'html,body,input,button': {
-    background: 'var(--ag-theme-background)',
-    color: 'var(--ag-theme-text)',
-    fontFamily: 'var(--ag-theme-font-family)'
-  },
-
-  body: {
-    padding: '1em',
-    maxWidth: 'var(--ag-theme-max-width)',
-    margin: '0 auto'
-  },
-
-  a: {
-    color: 'var(--ag-theme-secondary)',
-    textDecoration: 'underline',
-    textDecorationColor: 'var(--ag-theme-primary)'
-  },
-
-  'a:visited': {
-    color: 'var(--ag-theme-primary)'
-  },
-
-  img: {
-    width: '80%',
-    display: 'block',
-    margin: '1em auto'
-  },
-
-  iframe: {
-    display: 'block',
-    margin: '1em auto'
-  },
-
-  code: {
-    background: 'var(--ag-theme-primary)',
-    fontWeight: 'bold',
-    padding: '0.25em'
-  },
-
-  br: {
-    display: 'none'
-  },
-
-  li: {
-    listStyleType: '" ⟐ "'
-  },
-
-  hr: {
-    borderColor: 'var(--ag-theme-primary)'
-  },
-
-  '*:focus': {
-    outline: '2px solid var(--ag-theme-secondary)'
-  },
-
-  h1: {
-    textAlign: 'center'
-  },
-
-  /* Reset style for anchors added to headers */
-  'h2 a, h3 a, h4 a': {
-    color: 'var(--ag-theme-text)',
-    textDecoration: 'none'
-  },
-
-  'h1 a': {
-    color: 'var(--ag-theme-primary)',
-    textDecoration: 'none'
-  },
-
-  'h1:hover::after, h2:hover::after, h3:hover::after, h4:hover::after': {
-    textDecoration: 'none !important'
-  },
-  'h2::before': {
-    content: '"## "',
-    color: 'var(--ag-theme-secondary)'
-  },
-  'h3::before': {
-    content: '"### "',
-    color: 'var(--ag-theme-secondary)'
-  },
-  'h4::before': {
-    content: '"#### "',
-    color: 'var(--ag-theme-secondary)'
-  }
-}
-
 export async function renderFolder (folder, output = folder, theme = DEFAULT_THEME) {
   let finalTheme = theme
   try {
@@ -126,8 +24,6 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
   }
 
   for await (const path of glob(folder, '**/*.md')) {
-    /** skip node_modules */
-    if (path.startsWith('node_modules')) continue
     const fileName = path.slice(0, -3)
     console.log('Rendering', path, fileName)
 
@@ -162,7 +58,113 @@ export function renderMarkdown (markdown, fileName, theme = DEFAULT_THEME) {
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="description" content="${description}">
 <style>
-  ${themeToStyle(DEFAULT_THEME_STYLES)}
+/* Hardcode the theme, should be overriden by Agregore theme vars*/
+:root {
+  --ag-color-purple: #6e2de5;
+  --ag-color-black: #111;
+  --ag-color-white: #F2F2F2;
+  --ag-color-green: #2de56e;
+}
+
+:root {
+  --ag-theme-font-family: system-ui;
+  --ag-theme-background: var(--ag-color-black);
+  --ag-theme-text: var(--ag-color-white);
+  --ag-theme-primary: var(--ag-color-purple);
+  --ag-theme-secondary: var(--ag-color-green);
+  --ag-theme-indent: 16px;
+  --ag-theme-max-width: 666px;
+}
+</style>
+<style>
+@charset "utf-8";
+@import url("agregore://theme/vars.css");
+
+html,body,input,button {
+  background: var(--ag-theme-background);
+  color: var(--ag-theme-text);
+  font-family: var(--ag-theme-font-family);
+}
+
+body {
+  padding: 1em;
+  max-width: var(--ag-theme-max-width);
+  margin: 0 auto;
+}
+
+a {
+  color: var(--ag-theme-secondary);
+  text-decoration: underline;
+  text-decoration-color: var(--ag-theme-primary);
+}
+
+a:visited {
+  color: var(--ag-theme-primary);
+}
+
+img {
+    width: 80%;
+    display: block;
+    margin: 1em auto;
+}
+
+iframe {
+  display: block;
+  margin: 1em auto;
+}
+
+code {
+  background: var(--ag-theme-primary);
+  font-weight: bold;
+  padding: 0.25em;
+}
+
+br {
+  display: none;
+}
+
+li {
+  list-style-type: " ⟐ ";
+}
+
+hr {
+  border-color: var(--ag-theme-primary);
+}
+
+*:focus {
+  outline: 2px solid var(--ag-theme-secondary);
+}
+
+h1 {
+  text-align: center;
+}
+
+/* Reset style for anchors added to headers */
+h2 a, h3 a, h4 a {
+  color: var(--ag-theme-text);
+  text-decoration: none;
+}
+
+h1 a {
+  color: var(--ag-theme-primary);
+  text-decoration: none;
+}
+
+h1:hover::after, h2:hover::after, h3:hover::after, h4:hover::after {
+  text-decoration: none !important;
+}
+h2::before {
+  content: "## ";
+  color: var(--ag-theme-secondary)
+}
+h3::before {
+  content: "### ";
+  color: var(--ag-theme-secondary)
+}
+h4::before {
+  content: "#### ";
+  color: var(--ag-theme-secondary)
+}
 </style>
 ${rendered}
 <script>
@@ -176,15 +178,4 @@ ${rendered}
     element.innerHTML = anchor.outerHTML
   }
 </script>`
-}
-
-function mapToCSS (obj = {}, newline = true) {
-  return Object.entries(obj).map(([key, value]) => `${newline ? '  ' : ''}${key.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}:${value}`).join(`${newline ? ';\n' : ';'}`)
-}
-
-export function themeToStyle (theme = {}, newline = true) {
-  return Object.entries(theme).reduce((css, [selector, styles]) => {
-    css += `${selector} ${newline ? '{\n' : '{'}${mapToCSS(styles, newline)}${newline ? '\n}' : '}'}${newline ? '\n\n' : ''}`
-    return css
-  }, '')
 }

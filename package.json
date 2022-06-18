@@ -6,7 +6,6 @@
   "type": "module",
   "bin": "bin.js",
   "scripts": {
-    "lint": "standard --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,8 +30,5 @@
     "glob": "^7.2.0",
     "it-glob": "^1.0.2",
     "marked": "^4.0.12"
-  },
-  "devDependencies": {
-    "standard": "^16.0.4"
   }
 }
