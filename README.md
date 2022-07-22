@@ -22,16 +22,29 @@ You can optionally specify a second parameter for the output directory.
 
 `npx agregore-markdown-site-generator ./input ./output`
 
-You can also optionally specify a `theme.json` file to customizing the them for the generated HTML files.
+You can optionally add a flag to link `default.css` in the head tag of each file instead of inlining css.
 
-```json
-{
-  "font-family": "system-ui",
-  "background": "var(--ag-color-black)",
-  "text": "var(--ag-color-white)",
-  "primary": "var(--ag-color-purple)",
-  "secondary": "var(--ag-color-green)",
-  "indent": "16px",
-  "max-width": "666px"
+`npx agregore-markdown-site-generator --link-stylesheets ./input ./output`
+
+You can also optionally specify a `theme.css` file to customize the theme for the generated HTML files.
+This file has the following css variables defined and is inlined into each html file. 
+As it's loaded after the other css it overrides the default variables.
+
+```css
+:root {
+  --ag-color-purple: #6e2de5;
+  --ag-color-black: #111;
+  --ag-color-white: #F2F2F2;
+  --ag-color-green: #2de56e;
+}
+
+:root {
+  --ag-theme-font-family: system-ui;
+  --ag-theme-background: var(--ag-color-black);
+  --ag-theme-text: var(--ag-color-white);
+  --ag-theme-primary: var(--ag-color-purple);
+  --ag-theme-secondary: var(--ag-color-green);
+  --ag-theme-indent: 16px;
+  --ag-theme-max-width: 666px;
 }
 ```

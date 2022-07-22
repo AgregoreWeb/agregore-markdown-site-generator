@@ -1,0 +1,16 @@
+:root {
+  --ag-color-purple: #6e2de5;
+  --ag-color-black: #111;
+  --ag-color-white: #F2F2F2;
+  --ag-color-green: #2de56e;
+}
+
+:root {
+  --ag-theme-font-family: system-ui;
+  --ag-theme-background: #761576;
+  --ag-theme-text: var(--ag-color-white);
+  --ag-theme-primary: var(--ag-color-purple);
+  --ag-theme-secondary: var(--ag-color-green);
+  --ag-theme-indent: 16px;
+  --ag-theme-max-width: 666px;
+}
