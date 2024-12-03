@@ -80,16 +80,82 @@ export function renderMarkdown (markdown, fileName, theme = DEFAULT_THEME) {
 @charset "utf-8";
 @import url("agregore://theme/vars.css");
 
-html,body,input,button {
+* {
+  box-sizing: border-box;
+}
+
+html {
   background: var(--ag-theme-background);
   color: var(--ag-theme-text);
   font-family: var(--ag-theme-font-family);
+  font-size: inherit;
 }
 
 body {
   padding: 1em;
+}
+
+body > p,
+body > a,
+body > pre,
+body > li,
+body > ul,
+body > table,
+body > img,
+body > form,
+body > iframe,
+body > video,
+body > audio,
+body > h1,
+body > h2,
+body > h3,
+body > h4,
+body > h5,
+body > h6 {
   max-width: var(--ag-theme-max-width);
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+input, button, textarea, select, select *, option  {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  padding:0.5em;
+  border-radius: 0.25em;
+}
+
+textarea {
+ width : 100%;
+ resize: vertical;
+ margin: 1em auto;
+}
+
+select option {
+  background: var(--ag-theme-background);
+  color: var(--ag-theme-text);
+}
+
+input, button, textarea, select, select *, video, dialog {
+  border: 1px solid var(--ag-theme-primary);
+}
+
+fieldset {
+  border: 1px solid var(--ag-theme-secondary);
+}
+
+dialog {
+  background: var(--ag-theme-background);
+  color: var(--ag-theme-text);
+  width: 80vw;
+  height: 80vh;
+}
+
+*::selection, option:hover {
+    background: var(--ag-theme-primary);
+    color: var(--ag-theme-text);
 }
 
 a {
@@ -98,25 +164,53 @@ a {
   text-decoration-color: var(--ag-theme-primary);
 }
 
-a:visited {
-  color: var(--ag-theme-primary);
+a:hover {
+    color: var(--ag-theme-background);
+    background-color: var(--ag-theme-secondary);
+    text-decoration: none;
 }
 
-img {
-    width: 80%;
-    display: block;
-    margin: 1em auto;
+a:visited {
+	color: var(--ag-theme-primary);
+}
+
+img, video, svg, object, audio {
+  width: 80%;
+  display: block;
+  margin: 1em auto;
 }
 
 iframe {
   display: block;
   margin: 1em auto;
+  width: 100%;
+  border: none;
+}
+
+pre {
+  background: var(--ag-theme-primary);
 }
 
 code {
   background: var(--ag-theme-primary);
   font-weight: bold;
   padding: 0.25em;
+}
+
+blockquote {
+  border-left: 1px solid var(--ag-theme-primary);
+  margin: 1em;
+  padding-left: 1em;
+}
+
+blockquote > *::before {
+  content: "> ";
+  color: var(--ag-theme-secondary);
+}
+
+pre > code {
+  display: block;
+  padding: 0.5em;
 }
 
 br {
@@ -164,6 +258,58 @@ h3::before {
 h4::before {
   content: "#### ";
   color: var(--ag-theme-secondary)
+}
+
+*::-webkit-scrollbar {
+    width: 1em;
+}
+
+*::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--ag-theme-primary);
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+*::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+
+
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-timeline-container,
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display,
+audio::-webkit-media-controls-timeline,
+audio::-webkit-media-controls-volume-slider-container,
+audio::-webkit-media-controls-volume-slider,
+audio::-webkit-media-controls-seek-back-button,
+audio::-webkit-media-controls-seek-forward-button,
+audio::-webkit-media-controls-fullscreen-button,
+audio::-webkit-media-controls-rewind-button,
+audio::-webkit-media-controls-return-to-realtime-button,
+audio::-webkit-media-controls-toggle-closed-captions-button
+{
+border: none;
+border-radius: none;
+}
+
+audio::-webkit-media-controls-timeline
+{
+  background: var(--ag-theme-primary);
+  margin: 0px 1em;
+  border-radius: none;
+}
+
+audio::-webkit-media-controls-panel {
+  background: var(--ag-theme-background);
+  color: var(--ag-theme-text);
+  font-family: var(--ag-theme-font-family);
+  font-size: inherit;
+  border-radius: none;
 }
 </style>
 ${rendered}
