@@ -1,14 +1,17 @@
+import { fileURLToPath } from 'node:url'
+import { join, dirname, resolve, relative } from 'node:path'
+import { readFile, writeFile, mkdir, stat } from 'node:fs/promises'
 import { lexer, parser } from 'marked'
 import glob from 'it-glob'
-import { join, dirname } from 'path'
-import { readFile, writeFile, mkdir } from 'fs/promises'
+
+const __dirname = fileURLToPath(new URL('./', import.meta.url))
 
 export const DEFAULT_THEME = {
   'font-family': 'system-ui',
-  background: 'var(--ag-color-black)',
-  text: 'var(--ag-color-white)',
-  primary: 'var(--ag-color-purple)',
-  secondary: 'var(--ag-color-green)',
+  background: '#111111',
+  text: '#F2F2F2',
+  primary: '#6e2de5',
+  secondary: '#2de56e',
   indent: '16px',
   'max-width': '666px'
 }
@@ -19,16 +22,30 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
     const themeContent = await readFile(join(folder, 'theme.json'), 'utf8')
     const themeJSON = JSON.parse(themeContent)
     finalTheme = { ...theme, ...themeJSON }
+    console.log("Pulled custom theme.json out")
   } catch {
-    console.warn('No valid `theme.css` found, using defaults')
+    console.warn('No valid `theme.json` found, using defaults')
+  }
+
+  const cssFilePath = resolve(folder, 'style.css')
+  const cssFileExists = await stat(cssFilePath)
+    .then(() => true, () => false)
+
+  if (!cssFileExists) {
+    console.log('Write style path', cssFilePath)
+    const defaultStylePath = join(__dirname, 'style.css')
+    const defaultStyle = await readFile(defaultStylePath, 'utf8')
+    await writeFile(cssFilePath, defaultStyle)
   }
 
   for await (const path of glob(folder, '**/*.md')) {
     const fileName = path.slice(0, -3)
-    console.log('Rendering', path, fileName)
+    const filePath = join(folder, path)
+    const cssRelative = relative(filePath, cssFilePath)
+    console.log('Rendering', path)
 
-    const markdown = await readFile(join(folder, path), 'utf8')
-    const html = renderMarkdown(markdown, fileName, finalTheme)
+    const markdown = await readFile(filePath, 'utf8')
+    const html = renderMarkdown(markdown, fileName, cssRelative, finalTheme)
 
     const htmlPath = join(output, fileName + '.html')
 
@@ -38,7 +55,7 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
   }
 }
 
-export function renderMarkdown (markdown, fileName, theme = DEFAULT_THEME) {
+export function renderMarkdown (markdown, fileName, cssLocation, theme = DEFAULT_THEME) {
   const tokens = lexer(markdown)
   const rendered = parser(tokens)
 
@@ -58,258 +75,19 @@ export function renderMarkdown (markdown, fileName, theme = DEFAULT_THEME) {
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="description" content="${description}">
 <style>
-/* Hardcode the theme, should be overriden by Agregore theme vars*/
-:root {
-  --ag-color-purple: #6e2de5;
-  --ag-color-black: #111;
-  --ag-color-white: #F2F2F2;
-  --ag-color-green: #2de56e;
-}
-
-:root {
-  --ag-theme-font-family: system-ui;
-  --ag-theme-background: var(--ag-color-black);
-  --ag-theme-text: var(--ag-color-white);
-  --ag-theme-primary: var(--ag-color-purple);
-  --ag-theme-secondary: var(--ag-color-green);
-  --ag-theme-indent: 16px;
-  --ag-theme-max-width: 666px;
-}
-</style>
-<style>
 @charset "utf-8";
 @import url("agregore://theme/vars.css");
+@import url("${cssLocation}");
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  background: var(--ag-theme-background);
-  color: var(--ag-theme-text);
-  font-family: var(--ag-theme-font-family);
-  font-size: inherit;
-}
-
-body {
-  padding: 1em;
-}
-
-body > p,
-body > a,
-body > pre,
-body > li,
-body > ul,
-body > table,
-body > img,
-body > form,
-body > iframe,
-body > video,
-body > audio,
-body > h1,
-body > h2,
-body > h3,
-body > h4,
-body > h5,
-body > h6 {
-  max-width: var(--ag-theme-max-width);
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}
-
-input, button, textarea, select, select *, option  {
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  background: none;
-  padding:0.5em;
-  border-radius: 0.25em;
-}
-
-textarea {
- width : 100%;
- resize: vertical;
- margin: 1em auto;
-}
-
-select option {
-  background: var(--ag-theme-background);
-  color: var(--ag-theme-text);
-}
-
-input, button, textarea, select, select *, video, dialog {
-  border: 1px solid var(--ag-theme-primary);
-}
-
-fieldset {
-  border: 1px solid var(--ag-theme-secondary);
-}
-
-dialog {
-  background: var(--ag-theme-background);
-  color: var(--ag-theme-text);
-  width: 80vw;
-  height: 80vh;
-}
-
-*::selection, option:hover {
-    background: var(--ag-theme-primary);
-    color: var(--ag-theme-text);
-}
-
-a {
-  color: var(--ag-theme-secondary);
-  text-decoration: underline;
-  text-decoration-color: var(--ag-theme-primary);
-}
-
-a:hover {
-    color: var(--ag-theme-background);
-    background-color: var(--ag-theme-secondary);
-    text-decoration: none;
-}
-
-a:visited {
-	color: var(--ag-theme-primary);
-}
-
-img, video, svg, object, audio {
-  width: 80%;
-  display: block;
-  margin: 1em auto;
-}
-
-iframe {
-  display: block;
-  margin: 1em auto;
-  width: 100%;
-  border: none;
-}
-
-pre {
-  background: var(--ag-theme-primary);
-}
-
-code {
-  background: var(--ag-theme-primary);
-  font-weight: bold;
-  padding: 0.25em;
-}
-
-blockquote {
-  border-left: 1px solid var(--ag-theme-primary);
-  margin: 1em;
-  padding-left: 1em;
-}
-
-blockquote > *::before {
-  content: "> ";
-  color: var(--ag-theme-secondary);
-}
-
-pre > code {
-  display: block;
-  padding: 0.5em;
-}
-
-br {
-  display: none;
-}
-
-li {
-  list-style-type: " ⟐ ";
-}
-
-hr {
-  border-color: var(--ag-theme-primary);
-}
-
-*:focus {
-  outline: 2px solid var(--ag-theme-secondary);
-}
-
-h1 {
-  text-align: center;
-}
-
-/* Reset style for anchors added to headers */
-h2 a, h3 a, h4 a {
-  color: var(--ag-theme-text);
-  text-decoration: none;
-}
-
-h1 a {
-  color: var(--ag-theme-primary);
-  text-decoration: none;
-}
-
-h1:hover::after, h2:hover::after, h3:hover::after, h4:hover::after {
-  text-decoration: none !important;
-}
-h2::before {
-  content: "## ";
-  color: var(--ag-theme-secondary)
-}
-h3::before {
-  content: "### ";
-  color: var(--ag-theme-secondary)
-}
-h4::before {
-  content: "#### ";
-  color: var(--ag-theme-secondary)
-}
-
-*::-webkit-scrollbar {
-    width: 1em;
-}
-
-*::-webkit-scrollbar-corner {
-    background: rgba(0,0,0,0);
-}
-
-*::-webkit-scrollbar-thumb {
-    background-color: var(--ag-theme-primary);
-    border: 2px solid transparent;
-    background-clip: content-box;
-}
-*::-webkit-scrollbar-track {
-    background-color: rgba(0,0,0,0);
-}
-
-
-audio::-webkit-media-controls-mute-button,
-audio::-webkit-media-controls-play-button,
-audio::-webkit-media-controls-timeline-container,
-audio::-webkit-media-controls-current-time-display,
-audio::-webkit-media-controls-time-remaining-display,
-audio::-webkit-media-controls-timeline,
-audio::-webkit-media-controls-volume-slider-container,
-audio::-webkit-media-controls-volume-slider,
-audio::-webkit-media-controls-seek-back-button,
-audio::-webkit-media-controls-seek-forward-button,
-audio::-webkit-media-controls-fullscreen-button,
-audio::-webkit-media-controls-rewind-button,
-audio::-webkit-media-controls-return-to-realtime-button,
-audio::-webkit-media-controls-toggle-closed-captions-button
-{
-border: none;
-border-radius: none;
-}
-
-audio::-webkit-media-controls-timeline
-{
-  background: var(--ag-theme-primary);
-  margin: 0px 1em;
-  border-radius: none;
-}
-
-audio::-webkit-media-controls-panel {
-  background: var(--ag-theme-background);
-  color: var(--ag-theme-text);
-  font-family: var(--ag-theme-font-family);
-  font-size: inherit;
-  border-radius: none;
+/* Hardcode the theme, should be overriden by Agregore theme vars*/
+:root {
+  --theme-font-family: var(--ag-theme-font-family, ${theme['font-family']});
+  --theme-background: var(--ag-theme-background, ${theme.background});
+  --theme-text: var(--ag-theme-text, ${theme.text});
+  --theme-primary: var(--ag-theme-primary, ${theme.primary});
+  --theme-secondary: var(--ag-theme-secondary, ${theme.secondary});
+  --theme-indent: var(--ag-theme-indent, ${theme.indent});
+  --theme-max-width: var(--ag-theme-max-width, ${theme['max-width']});
 }
 </style>
 ${rendered}

@@ -1,0 +1,316 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'FontWithASyntaxHighlighter';
+    src: url('agregore://theme/FontWithASyntaxHighlighter-Regular.woff2') format('woff2');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--theme-background);
+    color: var(--theme-text);
+    font-family: var(--theme-font-family);
+    font-size: inherit;
+}
+
+body {
+    padding: 1em;
+}
+
+body>p,
+body>a,
+body>pre,
+body>ol,
+body>ul,
+body>table,
+body>img,
+body>form,
+body>iframe,
+body>video,
+body>audio,
+body>blockquote,
+body>details,
+body>h1,
+body>h2,
+body>h3,
+body>h4,
+body>h5,
+body>h6 {
+    max-width: var(--theme-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+input,
+button,
+textarea,
+select,
+select *,
+option {
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    background: none;
+    padding: 0.5em;
+    border-radius: 0.25em;
+}
+
+input {
+    font-family: 'FontWithASyntaxHighlighter', monospace;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+    margin: 1em auto;
+    font-family: 'FontWithASyntaxHighlighter', monospace;
+}
+
+select option {
+    background: var(--theme-background);
+    color: var(--theme-text);
+}
+
+input,
+button,
+textarea,
+select,
+select *,
+video,
+dialog {
+    border: 1px solid var(--theme-primary);
+}
+
+fieldset {
+    border: 1px solid var(--theme-secondary);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+dialog {
+    background: var(--theme-background);
+    color: var(--theme-text);
+    width: 80vw;
+    height: 80vh;
+}
+
+details summary {
+    cursor: pointer;
+}
+
+details summary>* {
+    display: inline;
+}
+
+details summary::marker,
+details summary::-webkit-details-marker {
+    color: var(--theme-primary)
+}
+
+table {
+    border-collapse: collapse;
+}
+
+body>table,
+body>pre {
+    overflow-x: auto;
+}
+
+body>pre:only-child {
+    color: inherit;
+    font-size: inherit;
+    background: none;
+    padding: 0.5em;
+    font-family: 'FontWithASyntaxHighlighter', monospace;
+}
+
+th,
+td {
+    border: 1px solid var(--theme-primary);
+    /* Set a common border for all cells */
+    padding: 0.5em;
+    /* Add some padding inside each cell */
+    text-align: left;
+    /* Align text to the left within each cell */
+}
+
+*::selection,
+option:hover {
+    background: var(--theme-primary);
+    color: var(--theme-text);
+}
+
+a {
+    color: var(--theme-secondary);
+    text-decoration: underline;
+    text-decoration-color: var(--theme-primary);
+}
+
+a:hover {
+    color: var(--theme-background);
+    background-color: var(--theme-secondary);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--theme-primary);
+}
+
+img,
+video,
+svg,
+object,
+audio {
+    width: 80%;
+    display: block;
+    margin: 1em auto;
+}
+
+iframe {
+    display: block;
+    margin: 1em auto;
+    width: 100%;
+    border: none;
+}
+
+pre {
+    background: var(--theme-primary);
+}
+
+code {
+    background: var(--theme-primary);
+    font-weight: bold;
+    padding: 0.25em;
+    font-family: 'FontWithASyntaxHighlighter', monospace;
+}
+
+blockquote {
+    border-left: 1px solid var(--theme-primary);
+    margin: 1em;
+    padding-left: 1em;
+}
+
+blockquote>*::before {
+    content: "> ";
+    color: var(--theme-secondary);
+}
+
+pre>code {
+    display: block;
+    padding: 0.5em;
+    background: var(--theme-background);
+    color: var(--theme-text);
+}
+
+br {
+    display: none;
+}
+
+ul>li {
+    list-style-type: " ⟐ ";
+}
+
+hr {
+    border-color: var(--theme-primary);
+}
+
+*:focus {
+    outline: 2px solid var(--theme-secondary);
+}
+
+h1 {
+    text-align: center;
+}
+
+/* Reset style for anchors added to headers */
+h2 a,
+h3 a,
+h4 a {
+    color: var(--theme-text);
+    text-decoration: none;
+}
+
+h1 a {
+    color: var(--theme-primary);
+    text-decoration: none;
+}
+
+h1:hover::after,
+h2:hover::after,
+h3:hover::after,
+h4:hover::after {
+    text-decoration: none !important;
+}
+
+h2::before {
+    content: "## ";
+    color: var(--theme-secondary)
+}
+
+h3::before {
+    content: "### ";
+    color: var(--theme-secondary)
+}
+
+h4::before {
+    content: "#### ";
+    color: var(--theme-secondary)
+}
+
+*::-webkit-scrollbar {
+    width: 1em;
+}
+
+*::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--theme-primary);
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-timeline-container,
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display,
+audio::-webkit-media-controls-timeline,
+audio::-webkit-media-controls-volume-slider-container,
+audio::-webkit-media-controls-volume-slider,
+audio::-webkit-media-controls-seek-back-button,
+audio::-webkit-media-controls-seek-forward-button,
+audio::-webkit-media-controls-fullscreen-button,
+audio::-webkit-media-controls-rewind-button,
+audio::-webkit-media-controls-return-to-realtime-button,
+audio::-webkit-media-controls-toggle-closed-captions-button {
+    border: none;
+    border-radius: none;
+}
+
+audio::-webkit-media-controls-timeline {
+    background: var(--theme-primary);
+    margin: 0px 1em;
+    border-radius: none;
+}
+
+audio::-webkit-media-controls-panel {
+    background: var(--theme-background);
+    color: var(--theme-text);
+    font-family: var(--theme-font-family);
+    font-size: inherit;
+    border-radius: none;
+}

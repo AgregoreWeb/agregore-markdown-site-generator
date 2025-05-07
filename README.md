@@ -9,8 +9,9 @@ Generate static HTML websites from markdown using the same style as Agregore's m
 - The first `heading` is used as the HTML document title
 - The first `paragraph` is used as the HTML document `description` meta tag
 - Headings get IDs added to them
-- JavaScript attaches anchros to headings so you can click them to add the link to the URL
+- JavaScript attaches anchors to headings so you can click them to add the link to the URL
 - Agregore's CSS theme variables get loaded at runtime (if applicable) so users themes get automatically applied.
+- CSS gets output to `style.css` if this file doesn't already exist. It's linked to using relative URLs
 
 ## Usage
 
@@ -26,12 +27,12 @@ You can also optionally specify a `theme.json` file to customizing the them for 
 
 ```json
 {
-  "font-family": "system-ui",
-  "background": "var(--ag-color-black)",
-  "text": "var(--ag-color-white)",
-  "primary": "var(--ag-color-purple)",
-  "secondary": "var(--ag-color-green)",
-  "indent": "16px",
-  "max-width": "666px"
-}
-```
+  "font-family":"system-ui",
+  "background":"#111111",
+  "text":"#F2F2F2",
+  "primary":"#6e2de5",
+  "secondary":"#2de56e",
+  "indent":"16px",
+  "max-width":"666px"
+  }
+  ```
