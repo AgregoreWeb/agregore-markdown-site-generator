@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url'
 import { join, dirname, resolve, relative } from 'node:path'
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises'
 import { lexer, parser } from 'marked'
+import { fromMarkdown as toGemtext } from 'markdown-to-gemtext'
 import glob from 'it-glob'
 
 const __dirname = fileURLToPath(new URL('./', import.meta.url))
@@ -22,12 +23,12 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
     const themeContent = await readFile(join(folder, 'theme.json'), 'utf8')
     const themeJSON = JSON.parse(themeContent)
     finalTheme = { ...theme, ...themeJSON }
-    console.log("Pulled custom theme.json out")
+    console.log('Pulled custom theme.json out')
   } catch {
     console.warn('No valid `theme.json` found, using defaults')
   }
 
-  const cssFilePath = resolve(folder, 'style.css')
+  const cssFilePath = resolve(output, 'style.css')
   const cssFileExists = await stat(cssFilePath)
     .then(() => true, () => false)
 
@@ -35,6 +36,7 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
     console.log('Write style path', cssFilePath)
     const defaultStylePath = join(__dirname, 'style.css')
     const defaultStyle = await readFile(defaultStylePath, 'utf8')
+    await mkdir(output, {recursive: true})
     await writeFile(cssFilePath, defaultStyle)
   }
 
@@ -45,18 +47,28 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
     console.log('Rendering', path)
 
     const markdown = await readFile(filePath, 'utf8')
-    const html = renderMarkdown(markdown, fileName, cssRelative, finalTheme)
+    const tokens = lexer(markdown)
+    const html = renderHTML(tokens, fileName, cssRelative, finalTheme)
 
     const htmlPath = join(output, fileName + '.html')
 
     console.log('Saving to', htmlPath)
     await mkdir(dirname(htmlPath), { recursive: true })
     await writeFile(htmlPath, html)
+
+    console.log('Rendering .gmi')
+
+    try {
+      const gemtext = toGemtext(markdown)
+      const geminiPath = join(output, fileName + '.gmi')
+      await writeFile(geminiPath, gemtext)
+    } catch (e) {
+      console.log('Failed to render gemtext', e.stack)
+    }
   }
 }
 
-export function renderMarkdown (markdown, fileName, cssLocation, theme = DEFAULT_THEME) {
-  const tokens = lexer(markdown)
+export function renderHTML (tokens, fileName, cssLocation, theme = DEFAULT_THEME) {
   const rendered = parser(tokens)
 
   const firstHeading = tokens.find((token) => token.type === 'heading')

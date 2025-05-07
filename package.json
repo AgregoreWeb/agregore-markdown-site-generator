@@ -29,6 +29,7 @@
   "dependencies": {
     "glob": "^7.2.0",
     "it-glob": "^1.0.2",
+    "markdown-to-gemtext": "^1.0.2",
     "marked": "^4.0.12"
   }
 }

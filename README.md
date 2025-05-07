@@ -5,13 +5,14 @@ Generate static HTML websites from markdown using the same style as Agregore's m
 
 ## Features
 
-- Renders Github Flavored Markdown
+- Renders Github Flavored Markdown to HTML
 - The first `heading` is used as the HTML document title
 - The first `paragraph` is used as the HTML document `description` meta tag
 - Headings get IDs added to them
 - JavaScript attaches anchors to headings so you can click them to add the link to the URL
 - Agregore's CSS theme variables get loaded at runtime (if applicable) so users themes get automatically applied.
 - CSS gets output to `style.css` if this file doesn't already exist. It's linked to using relative URLs
+- Also renders markdown as [Gemtext](gemini://geminiprotocol.net/docs/cheatsheet.gmi) via `.gmi` files (with some limitations)
 
 ## Usage
 

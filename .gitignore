@@ -107,4 +107,5 @@ package-lock.json
 
 # Rendered HTML files
 *.html
+*.gmi
 example/style.css
