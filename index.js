@@ -14,9 +14,16 @@ export const DEFAULT_THEME = {
   primary: '#6e2de5',
   secondary: '#2de56e',
   indent: '16px',
-  'max-width': '666px'
+  'max-width': '666px',
+  borderRadius: '0.25em'
 }
 
+/**
+ * Build all mardown files in a folder into HTML files
+ * @param {string} folder Folder to read markdown from
+ * @param {string} output Folder to write output HTML and GMI to
+ * @param {typeof DEFAULT_THEME} theme Custom theme vars
+ */
 export async function renderFolder (folder, output = folder, theme = DEFAULT_THEME) {
   let finalTheme = theme
   try {
@@ -36,7 +43,7 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
     console.log('Write style path', cssFilePath)
     const defaultStylePath = join(__dirname, 'style.css')
     const defaultStyle = await readFile(defaultStylePath, 'utf8')
-    await mkdir(output, {recursive: true})
+    await mkdir(output, { recursive: true })
     await writeFile(cssFilePath, defaultStyle)
   }
 
@@ -63,6 +70,7 @@ export async function renderFolder (folder, output = folder, theme = DEFAULT_THE
       const geminiPath = join(output, fileName + '.gmi')
       await writeFile(geminiPath, gemtext)
     } catch (e) {
+      // @ts-ignore
       console.log('Failed to render gemtext', e.stack)
     }
   }
@@ -88,17 +96,20 @@ export function renderHTML (tokens, fileName, cssLocation, theme = DEFAULT_THEME
 <meta name="description" content="${description}">
 <style>
 @charset "utf-8";
+@import url("browser://theme/vars.css");
 @import url("agregore://theme/vars.css");
 @import url("${cssLocation}");
 
 /* Hardcode the theme, should be overriden by Agregore theme vars*/
 :root {
-  --theme-font-family: var(--ag-theme-font-family, ${theme['font-family']});
-  --theme-background: var(--ag-theme-background, ${theme.background});
-  --theme-text: var(--ag-theme-text, ${theme.text});
-  --theme-primary: var(--ag-theme-primary, ${theme.primary});
-  --theme-secondary: var(--ag-theme-secondary, ${theme.secondary});
-  --theme-indent: var(--ag-theme-indent, ${theme.indent});
+  --theme-font-family: var(--browser-theme-font-family, ${theme['font-family']});
+  --theme-background: var(--browser-theme-background, ${theme.background});
+  --theme-page-background: var(--browser-theme-page-background, ${theme.background});
+  --theme-text-color: var(--browser-theme-text-color, ${theme.text});
+  --theme-primary-highlight: var(--browser-theme-primary-highlight, ${theme.primary});
+  --theme-secondary-highlight: var(--browser-theme-secondary-highlight, ${theme.secondary});
+  --theme-indent: var(--browser-theme-indent, ${theme.indent});
+  --theme-border-radius: var(--browser-theme-border-radius, ${theme.borderRadius});
   --theme-max-width: var(--ag-theme-max-width, ${theme['max-width']});
 }
 </style>

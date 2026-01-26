@@ -1,23 +1,23 @@
 @charset "utf-8";
 
 @font-face {
-    font-family: 'FontWithASyntaxHighlighter';
-    src: url('agregore://theme/FontWithASyntaxHighlighter-Regular.woff2') format('woff2');
+  font-family: 'FontWithASyntaxHighlighter';
+  src: url('agregore://theme/FontWithASyntaxHighlighter-Regular.woff2') format('woff2');
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-    background: var(--theme-background);
-    color: var(--theme-text);
-    font-family: var(--theme-font-family);
-    font-size: inherit;
+  background: var(--theme-page-background);
+  color: var(--theme-text-color);
+  font-family: var(--theme-font-family);
+  font-size: inherit;
 }
 
 body {
-    padding: 1em;
+  padding: 1em;
 }
 
 body>p,
@@ -39,10 +39,18 @@ body>h3,
 body>h4,
 body>h5,
 body>h6 {
-    max-width: var(--theme-max-width);
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+  max-width: var(--theme-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/* For markdown paragraphs with images */
+body>p>img,
+body>p>iframe,
+body>p>video,
+body>p>audio {
+  width: 100%;
 }
 
 input,
@@ -51,28 +59,32 @@ textarea,
 select,
 select *,
 option {
-    color: inherit;
-    font-family: inherit;
-    font-size: inherit;
-    background: none;
-    padding: 0.5em;
-    border-radius: 0.25em;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  background: var(--theme-background);
+  padding: var(--theme-border-radius);
+  margin: 0.5em;
+  border-radius: var(--theme-border-radius);
+}
+input[type=color] {
+  padding: 0px;
 }
 
 input {
-    font-family: 'FontWithASyntaxHighlighter', monospace;
+  font-family: 'FontWithASyntaxHighlighter', monospace;
 }
 
 textarea {
-    width: 100%;
-    resize: vertical;
-    margin: 1em auto;
-    font-family: 'FontWithASyntaxHighlighter', monospace;
+  width: 100%;
+  resize: vertical;
+  margin: 1em auto;
+  font-family: 'FontWithASyntaxHighlighter', monospace;
 }
 
 select option {
-    background: var(--theme-background);
-    color: var(--theme-text);
+  background: var(--theme-background);
+  color: var(--theme-text-color);
 }
 
 input,
@@ -82,85 +94,86 @@ select,
 select *,
 video,
 dialog {
-    border: 1px solid var(--theme-primary);
+  border: 1px solid var(--theme-primary-highlight);
 }
 
 fieldset {
-    border: 1px solid var(--theme-secondary);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+  border: 1px solid var(--theme-secondary-highlight);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 dialog {
-    background: var(--theme-background);
-    color: var(--theme-text);
-    width: 80vw;
-    height: 80vh;
+  background: var(--theme-background);
+  color: var(--theme-text-color);
+  width: 80vw;
+  height: 80vh;
 }
 
 details summary {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 details summary>* {
-    display: inline;
+  display: inline;
 }
 
 details summary::marker,
 details summary::-webkit-details-marker {
-    color: var(--theme-primary)
+  color: var(--theme-primary-highlight)
 }
 
 table {
-    border-collapse: collapse;
+  border-collapse: collapse;
+  margin: 1em auto;
 }
 
 body>table,
 body>pre {
-    overflow-x: auto;
+  overflow-x: auto;
 }
 
 body>pre:only-child {
-    color: inherit;
-    font-size: inherit;
-    background: none;
-    padding: 0.5em;
-    font-family: 'FontWithASyntaxHighlighter', monospace;
+  color: inherit;
+  font-size: inherit;
+  background: none;
+  padding: 0.5em;
+  font-family: 'FontWithASyntaxHighlighter', monospace;
 }
 
 th,
 td {
-    border: 1px solid var(--theme-primary);
-    /* Set a common border for all cells */
-    padding: 0.5em;
-    /* Add some padding inside each cell */
-    text-align: left;
-    /* Align text to the left within each cell */
+  border: 1px solid var(--theme-primary-highlight);
+  /* Set a common border for all cells */
+  padding: 0.5em;
+  /* Add some padding inside each cell */
+  text-align: left;
+  /* Align text to the left within each cell */
 }
 
 *::selection,
 option:hover {
-    background: var(--theme-primary);
-    color: var(--theme-text);
+  background: var(--theme-primary-highlight);
+  color: var(--theme-text-highlight);
 }
 
 a {
-    color: var(--theme-secondary);
-    text-decoration: underline;
-    text-decoration-color: var(--theme-primary);
+  color: var(--theme-secondary-highlight);
+  text-decoration: underline;
+  text-decoration-color: var(--theme-primary-highlight);
 }
 
 a:hover {
-    color: var(--theme-background);
-    background-color: var(--theme-secondary);
-    text-decoration: none;
+  color: var(--theme-background);
+  background-color: var(--theme-secondary-highlight);
+  text-decoration: none;
 }
 
 a:visited {
-    color: var(--theme-primary);
+  color: var(--theme-primary-highlight);
 }
 
 img,
@@ -168,118 +181,118 @@ video,
 svg,
 object,
 audio {
-    width: 80%;
-    display: block;
-    margin: 1em auto;
+  width: 80%;
+  display: block;
+  margin: 1em auto;
 }
 
 iframe {
-    display: block;
-    margin: 1em auto;
-    width: 100%;
-    border: none;
+  display: block;
+  margin: 1em auto;
+  width: 100%;
+  border: none;
 }
 
 pre {
-    background: var(--theme-primary);
+  background: var(--theme-primary-highlight);
 }
 
 code {
-    background: var(--theme-primary);
-    font-weight: bold;
-    padding: 0.25em;
-    font-family: 'FontWithASyntaxHighlighter', monospace;
+  background: var(--theme-primary-highlight);
+  font-weight: bold;
+  padding: 0.25em;
+  font-family: 'FontWithASyntaxHighlighter', monospace;
 }
 
 blockquote {
-    border-left: 1px solid var(--theme-primary);
-    margin: 1em;
-    padding-left: 1em;
+  border-left: 1px solid var(--theme-primary-highlight);
+  margin: 1em;
+  padding-left: 1em;
 }
 
 blockquote>*::before {
-    content: "> ";
-    color: var(--theme-secondary);
+  content: "> ";
+  color: var(--theme-secondary-highlight);
 }
 
 pre>code {
-    display: block;
-    padding: 0.5em;
-    background: var(--theme-background);
-    color: var(--theme-text);
+  display: block;
+  padding: 0.5em;
+  background: var(--theme-background);
+  color: var(--theme-text-color);
 }
 
 br {
-    display: none;
+  display: none;
 }
 
 ul>li {
-    list-style-type: " ⟐ ";
+  list-style-type: " ⟐ ";
 }
 
 hr {
-    border-color: var(--theme-primary);
+  border-color: var(--theme-primary-highlight);
 }
 
 *:focus {
-    outline: 2px solid var(--theme-secondary);
+  outline: 2px solid var(--theme-secondary-highlight);
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 /* Reset style for anchors added to headers */
 h2 a,
 h3 a,
 h4 a {
-    color: var(--theme-text);
-    text-decoration: none;
+  color: var(--theme-text-color);
+  text-decoration: none;
 }
 
 h1 a {
-    color: var(--theme-primary);
-    text-decoration: none;
+  color: var(--theme-primary-highlight);
+  text-decoration: none;
 }
 
 h1:hover::after,
 h2:hover::after,
 h3:hover::after,
 h4:hover::after {
-    text-decoration: none !important;
+  text-decoration: none !important;
 }
 
 h2::before {
-    content: "## ";
-    color: var(--theme-secondary)
+  content: "## ";
+  color: var(--theme-secondary-highlight)
 }
 
 h3::before {
-    content: "### ";
-    color: var(--theme-secondary)
+  content: "### ";
+  color: var(--theme-secondary-highlight)
 }
 
 h4::before {
-    content: "#### ";
-    color: var(--theme-secondary)
+  content: "#### ";
+  color: var(--theme-secondary-highlight)
 }
 
 *::-webkit-scrollbar {
-    width: 1em;
+  width: 1em;
 }
 
 *::-webkit-scrollbar-corner {
-    background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: var(--theme-primary);
-    border: 2px solid transparent;
-    background-clip: content-box;
+  background-color: var(--theme-primary-highlight);
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 *::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 
@@ -297,20 +310,20 @@ audio::-webkit-media-controls-fullscreen-button,
 audio::-webkit-media-controls-rewind-button,
 audio::-webkit-media-controls-return-to-realtime-button,
 audio::-webkit-media-controls-toggle-closed-captions-button {
-    border: none;
-    border-radius: none;
+  border: none;
+  border-radius: none;
 }
 
 audio::-webkit-media-controls-timeline {
-    background: var(--theme-primary);
-    margin: 0px 1em;
-    border-radius: none;
+  background: var(--theme-primary-highlight);
+  margin: 0px 1em;
+  border-radius: none;
 }
 
 audio::-webkit-media-controls-panel {
-    background: var(--theme-background);
-    color: var(--theme-text);
-    font-family: var(--theme-font-family);
-    font-size: inherit;
-    border-radius: none;
+  background: var(--theme-background);
+  color: var(--theme-text-color);
+  font-family: var(--theme-font-family);
+  font-size: inherit;
+  border-radius: none;
 }
